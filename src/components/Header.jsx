@@ -1,13 +1,7 @@
-import { useState, useEffect } from "react";
 import AddEntryModal from "./AddEntryModal";
 
-export default function Header() {
-  const [savedEntries, setSavedEntries] = useState([]);
-
-  useEffect(() => {
-    const stored = JSON.parse(localStorage.getItem("savedEntries")) || [];
-    setSavedEntries(stored);
-  }, []);
+export default function Header({savedEntries, setSavedEntries}) {
+  
 
   return (
     <>
