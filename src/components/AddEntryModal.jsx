@@ -1,42 +1,50 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import { useActionState } from "react";
+import { useEffect, useState, useActionState } from "react";
 
 const submitAction = async (prevState, formData) => {
   const title = formData.get("title");
   const date = formData.get("date");
   const image = formData.get("image");
   const content = formData.get("content");
+
   console.log("Submitted", { title, date, image, content });
-  alert("Entry was saved");
+  
   return { error: null, success: true };
 };
 
 const initialState = {
-    title: "",
-    date: "",
-    image: "",
-    content: "",}
+  title: "",
+  date: "",
+  image: "",
+  content: "",
+};
 
-export default function AddEntryModal() {
+export default function AddEntryModal({ savedEntries, setSavedEntries }) {
   const [state, formAction, isPending] = useActionState(submitAction, {});
-  
   const [formData, setFormData] = useState(initialState);
-  const {title, date, image, content} = formData
+  const { title, date, image, content } = formData;
+
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   useEffect(() => {
     if (state.success) {
+        if (savedEntries.some((e)=>e.date === date)){
+        alert("You already saved an entry for that date, choose another date or come back tomorrow.")
+        return} else
+      {setSavedEntries((prev) => {
+        let updated = [...prev, formData];
+        localStorage.setItem("savedEntries", JSON.stringify(updated));
+        return updated;
+      })};
       setFormData(initialState);
+      alert("Entry was saved");
     }
   }, [state]);
 
-
   const handleReset = () => {
-    setFormData(initialState)
-  }
+    setFormData(initialState);
+  };
 
   return (
     <div>
@@ -50,24 +58,62 @@ export default function AddEntryModal() {
             value={title}
             onChange={handleChange}
             className="input"
-            placeholder="Type here" 
-            />
-            {state.error?.name && (<p className="text-sm text-red-600 mt-1">{state.error?.name}</p>)}
+            placeholder="Type here"
+            required
+          />
+          {state.error?.name && (
+            <p className="text-sm text-red-600 mt-1">{state.error?.name}</p>
+          )}
         </fieldset>
         <fieldset>
           <label className="fieldset-legend">Date</label>
-          <input type="date" name="date" value={date} onChange={handleChange} className="input"/>
-          {state.error?.name && (<p className="text-sm text-red-600 mt-1">{state.error?.name}</p>)}
+          <input
+            type="date"
+            name="date"
+            value={date}
+            onChange={handleChange}
+            className="input"
+            required
+          />
+          {state.error?.name && (
+            <p className="text-sm text-red-600 mt-1">{state.error?.name}</p>
+          )}
           <label className="fieldset-legend">Image URL</label>
-          <input name="image" value={image} onChange={handleChange} className="input" placeholder="Put in a valid image url"/>
-          {state.error?.name && (<p className="text-sm text-red-600 mt-1">{state.error?.name}</p>)}
+          <input
+            name="image"
+            value={image}
+            onChange={handleChange}
+            className="input"
+            placeholder="Put in a valid image url"
+            required
+          />
+          {state.error?.name && (
+            <p className="text-sm text-red-600 mt-1">{state.error?.name}</p>
+          )}
           <label className="fieldset-legend">Content</label>
-          <textarea name="content" value={content} onChange={handleChange} className="input h-24" placeholder="What do you want to tell me today?" rows={4}/>
-          {state.error?.name && (<p className="text-sm text-red-600 mt-1">{state.error?.name}</p>)}
-          <br/> <br/>
-          <button type="submit" disabled={isPending} className={`btn ${isPending ? "text-gray-400 cursor-not-allowed":""}`}>{isPending? "Saving...":"Save entry"}</button>
-          <button className="btn" onClick={handleReset}>Reset</button>
-
+          <textarea
+            name="content"
+            value={content}
+            onChange={handleChange}
+            className="input h-24"
+            placeholder="What do you want to tell me today?"
+            rows={4}
+            required
+          />
+          {state.error?.name && (
+            <p className="text-sm text-red-600 mt-1">{state.error?.name}</p>
+          )}
+          <br /> <br />
+          <button
+            type="submit"
+            disabled={isPending}
+            className={`btn ${isPending ? "text-gray-400 cursor-not-allowed" : ""}`}
+          >
+            {isPending ? "Saving..." : "Save entry"}
+          </button>
+          <button type="button" className="btn" onClick={handleReset}>
+            Reset
+          </button>
         </fieldset>
       </form>
     </div>
