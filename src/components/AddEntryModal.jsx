@@ -1,13 +1,6 @@
 import { useEffect, useState, useActionState } from "react";
 
-const submitAction = async (prevState, formData) => {
-  const title = formData.get("title");
-  const date = formData.get("date");
-  const image = formData.get("image");
-  const content = formData.get("content");
-
-  console.log("Submitted", { title, date, image, content });
-  
+const submitAction = async () => {
   return { error: null, success: true };
 };
 
