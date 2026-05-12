@@ -9,13 +9,13 @@ export default function Header({savedEntries, setSavedEntries}) {
         <p>Welcome to your personal diary</p>
         <div>
           <button
-            className="btn"
+            className="btn btn-warning bg-amber-400 hover:bg-amber-100 hover:border-amber-400"
             onClick={() => document.getElementById("newEntry").showModal()}
           >
             Add Entry
           </button>
           <dialog id="newEntry" className="modal">
-            <div className="modal-box">
+            <div className="modal-box bg-amber-100">
               <AddEntryModal
                 savedEntries={savedEntries}
                 setSavedEntries={setSavedEntries}

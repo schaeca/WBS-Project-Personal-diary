@@ -17,16 +17,16 @@ function handleDelete(e){
 
 export default function EntryCard({e}) {
   return (
-    <div className="card card-sm bg-amber-200 max-w-fit p-2 shadow-sm">
+    <div className="card card-sm bg-amber-200 max-w-fit p-2 shadow-sm items-center">
       <figure>
-        <img className="object-cover max-h-50" src={e.image} alt={e.title} />
+        <img className="object-cover min-h-30 max-h-30 rounded-md" src={e.image} alt={e.title} />
       </figure>
-      <div className="card-body">
+      <div className="card-body items-center">
         <h2 className="card-title">{e.date}</h2>
         <p>{e.title}</p>
-        <div className="card-actions justify-end flex-col items-center">
-          <button onClick={handleClick} className="btn btn-warning">View Details</button>
-          <button onClick={handleDelete} className="btn btn-xs bg-amber-100 btn-warning">Delete entry</button>
+        <div className="card-actions justify-end items-center">
+          <button onClick={handleClick} className="btn btn-sm btn-warning">View Details</button>
+          <button onClick={handleDelete} className="btn btn-sm btn-soft btn-warning bg-amber-100 border-amber-400">Delete entry</button>
         </div>
       </div>
     </div>

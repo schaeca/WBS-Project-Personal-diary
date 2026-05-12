@@ -20,18 +20,27 @@ export default function AddEntryModal({ savedEntries, setSavedEntries }) {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  function closeModal() {
+    document.getElementById("newEntry").close();
+  }
+
   useEffect(() => {
     if (state.success) {
-        if (savedEntries.some((e)=>e.date === date)){
-        alert("You already saved an entry for that date, choose another date or come back tomorrow.")
-        return} else
-      {setSavedEntries((prev) => {
-        let updated = [...prev, formData];
-        localStorage.setItem("savedEntries", JSON.stringify(updated));
-        return updated;
-      })};
+      if (savedEntries.some((e) => e.date === date)) {
+        alert(
+          "You already saved an entry for that date, choose another date or come back tomorrow.",
+        );
+        return;
+      } else {
+        setSavedEntries((prev) => {
+          let updated = [...prev, formData];
+          localStorage.setItem("savedEntries", JSON.stringify(updated));
+          return updated;
+        });
+      }
       setFormData(initialState);
       alert("Entry was saved");
+      closeModal();
     }
   }, [state]);
 
@@ -40,8 +49,13 @@ export default function AddEntryModal({ savedEntries, setSavedEntries }) {
   };
 
   return (
-    <div>
-      <h2 className="font-bold text-lg">New Diary Entry</h2>
+    <div className="bg-amber-100">
+      <div className="flex justify-between">
+        <h2 className="font-bold text-lg">New Diary Entry</h2>
+        {/* <button className="btn btn-ghost btn-sm bg-amber-100">X</button> */}
+        <button type="button" className="btn btn-sm btn-ghost hover:bg-amber-400" onClick={closeModal}>X</button>
+
+      </div>
       <form id="myform" action={formAction}>
         <fieldset>
           <label className="fieldset-legend">Title</label>
@@ -97,16 +111,22 @@ export default function AddEntryModal({ savedEntries, setSavedEntries }) {
             <p className="text-sm text-red-600 mt-1">{state.error?.name}</p>
           )}
           <br /> <br />
-          <button
-            type="submit"
-            disabled={isPending}
-            className={`btn ${isPending ? "text-gray-400 cursor-not-allowed" : ""}`}
-          >
-            {isPending ? "Saving..." : "Save entry"}
-          </button>
-          <button type="button" className="btn" onClick={handleReset}>
-            Reset
-          </button>
+          <div className="flex gap-2 items-start">
+              <button
+                type="submit"
+                disabled={isPending}
+                className={`btn btn-warning btn-wide ${isPending ? "text-gray-400 cursor-not-allowed" : ""}`}
+                >
+                {isPending ? "Saving..." : "Save entry"}
+              </button>
+              <button
+                type="button"
+                className="btn btn-warning"
+                onClick={handleReset}
+              >
+                Reset
+              </button>
+          </div>
         </fieldset>
       </form>
     </div>
