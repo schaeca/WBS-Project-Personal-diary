@@ -1,12 +1,7 @@
+import ViewEntryModal from "./ViewEntryModal";
 
-function handleClick(){
-    console.log("Modal should open");
-    
-}
-
-function handleDelete(e){
+function handleDelete(){
     console.log("Entry should be deleted")
-    console.log(e.target);
     
     // const date = 
     // setSavedEntries((prev) => {
@@ -15,7 +10,7 @@ function handleDelete(e){
     //     return updated;})
 }
 
-export default function EntryCard({e}) {
+export default function EntryCard({e, onOpen}) {
   return (
     <div className="card card-sm bg-amber-200 max-w-fit p-2 shadow-sm items-center">
       <figure>
@@ -25,7 +20,8 @@ export default function EntryCard({e}) {
         <h2 className="card-title">{e.date}</h2>
         <p>{e.title}</p>
         <div className="card-actions justify-end items-center">
-          <button onClick={handleClick} className="btn btn-sm btn-warning">View Details</button>
+          {/* <ViewEntryModal date={e.date} title={e.title} content={e.content} img={e.image}/> */}
+          <button onClick={onOpen} id={e.date} className="btn btn-sm btn-warning">View Details</button>
           <button onClick={handleDelete} className="btn btn-sm btn-soft btn-warning bg-amber-100 border-amber-400">Delete entry</button>
         </div>
       </div>
