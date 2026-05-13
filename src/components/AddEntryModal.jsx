@@ -115,7 +115,7 @@ export default function AddEntryModal({ savedEntries, setSavedEntries }) {
               <button
                 type="submit"
                 disabled={isPending}
-                className={`btn btn-warning btn-wide ${isPending ? "text-gray-400 cursor-not-allowed" : ""}`}
+                className={`btn btn-warning w-40 ${isPending ? "text-gray-400 cursor-not-allowed" : ""}`}
                 >
                 {isPending ? "Saving..." : "Save entry"}
               </button>
